@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: my_sql_container
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root_admin
+      MYSQL_DATABASE: db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      mysql_network:
+        ipv4_address: 172.18.0.10  # Definindo o IP estático
+
+volumes:
+  mysql_data:
+
+networks:
+  mysql_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16  # Definindo o range de IPs
