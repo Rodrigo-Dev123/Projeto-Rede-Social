@@ -1,5 +1,6 @@
 import { db } from '../conect.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const register = (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
@@ -58,7 +59,36 @@ export const login = (req, res) => {
             if (data.length === 0) {
                 return res.status(404).json({ message: 'Usuário não encontrado!' });
             } else {
-                const user = data
+                const user = data[0];
+                console.log(user);
+                const checkPassword = await bcrypt.compare(password, user.password)
+
+                if (!checkPassword) {
+                    return res.status(422).json({ message: 'Senha incorreta!' });
+                }
+
+                try {
+                    const refreshToken = jwt.sign({
+                        exp: Math.floor(Date.now() / 1000) + 24 * 60,
+                        id: user.password
+                    },
+                        process.env.REFRESH,
+                        { algorithm: 'HS256' }
+                    )
+
+                    const token = jwt.sign({
+                        exp: Math.floor(Date.now() / 1000) + 3600,
+                        id: user.password
+                    },
+                        process.env.TOKEN,
+                        { algorithm: 'HS256' }
+                    )
+
+                    res.status(422).json({ message: 'Usuário logado com sucesso!', token, refreshToken })
+                } catch(err) {
+                    console.log(err);
+                    return res.status(500).json({ message: 'Aconteceu algum erro no servidor, tente novamente mais tarde.' });
+                }
             }
         }
     )
