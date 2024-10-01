@@ -1,25 +1,37 @@
+'use client'
+
+import axios from "axios";
 import Link from "next/link";
+import { useState } from "react";
+import AuthPage from "../components/AuthPage";
+import AuthInput from "../components/AuthInput";
 
 function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setpassword] = useState('');
+
+    const handleLogin = (event: any) => {
+        event.preventDefault();
+        axios.post('http://localhost:8001/api/auth/login', { email, password }).then((res) => {
+            console.log(res.data);
+        }).catch((error: any) => {
+            console.log(error)
+        });
+    }
+
     return (
-        <main
-            className="min-h-screen bg-[url('https://on-desktop.com/wps/World___Australia_Great_Barrier_Reef__Australia_096264_.jpg')] 
-            flex flex-col items-center bg-cover bg-center bg-no-repeat justify-center"
-        >
-            <form className="flex flex-col bg-white px-6 py-14 gap-11 rounded-2xl">
-                <h1>LOGIN</h1>
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email"></input>
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password"></input>
-                </div>
-                <button>ENTRAR</button>
-                <Link href="register">Cadastrar</Link>
-            </form>
-        </main>
+        <AuthPage>
+            <h1 className="font-bold text-2xl ">LOGIN</h1>
+            <AuthInput label="Email:" newState={setEmail} />
+            <AuthInput label="Password:" newState={setpassword} />
+            <button
+                className="bg-green-600 py-3 font-bold text-white rounded-lg hover:bg-green-800"
+                onClick={(e) => handleLogin(e)}
+            >
+                ENTRAR
+            </button>
+            <Link href="register" className="text-center underline">Cadastrar-se</Link>
+        </AuthPage>
     )
 }
 
