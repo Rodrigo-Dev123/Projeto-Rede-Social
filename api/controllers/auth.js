@@ -84,8 +84,8 @@ export const login = (req, res) => {
                         { algorithm: 'HS256' }
                     )
 
-                    res.status(200).json({ message: 'Usuário logado com sucesso!', token, refreshToken })
-                } catch(err) {
+                    res.status(200).json({ message: 'Usuário logado com sucesso!', data: { user, token: { token, refreshToken } }})
+                } catch (err) {
                     console.log(err);
                     return res.status(500).json({ message: 'Aconteceu algum erro no servidor, tente novamente mais tarde.' });
                 }

@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from "react";
-import AuthInput from "../components/AuthInput";
-import AuthPage from "../components/AuthPage";
+import AuthInput from "../../components/AuthInput";
 import Link from "next/link";
-import axios from "axios";
+import { makeRequest } from "../../../../axios";
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -16,7 +15,7 @@ function Register() {
 
     const handleRegister = (event: any) => {
         event.preventDefault();
-        axios.post('http://localhost:8001/api/auth/register',
+        makeRequest.post('auth/register',
             { username, email, password, confirmPassword }).then((res) => {
                 setSuccess(res.data.message);
                 setError('');
@@ -29,7 +28,7 @@ function Register() {
     }
 
     return (
-        <AuthPage>
+        <>
             <h1 className="font-bold text-2xl">REGISTER</h1>
             <AuthInput label="Nome:" newState={setUsername} />
             <AuthInput label="Email:" newState={setEmail} />
@@ -44,7 +43,7 @@ function Register() {
                 Cadastrar-se
             </button>
             <Link href="/login" className="text-center underline">Logar</Link>
-        </AuthPage>
+        </>
     )
 }
 
