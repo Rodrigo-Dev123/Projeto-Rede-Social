@@ -4,19 +4,22 @@ import Link from "next/link";
 import { useState } from "react";
 import AuthInput from "../../components/AuthInput";
 import { makeRequest } from "../../../../axios";
+import { useRouter } from "next/navigation";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setpassword] = useState('');
     const [error, setError] = useState('');
 
+    const router = useRouter();
+
     const handleLogin = (event: any) => {
         event.preventDefault();
         makeRequest.post('auth/login', { email, password }).then((res) => {
-            localStorage.setItem('rede-socia:user', JSON.stringify(res.data.data.user));
-            localStorage.setItem('rede-socia:token', JSON.stringify(res.data.data.token));
+            localStorage.setItem('rede-social:user', JSON.stringify(res.data.data.user));
+            localStorage.setItem('rede-social:token', JSON.stringify(res.data.data.token));
             setError('');
-            console.log(res.data);
+            router.push('/');
         }).catch((error: any) => {
             setError(error.response.data.message);
             console.log(error)
