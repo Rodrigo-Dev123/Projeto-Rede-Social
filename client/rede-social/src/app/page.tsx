@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Header from "./components/Header";
 import { useRouter } from "next/navigation";
+import Sidebar from "./components/Sidebar";
 
 export default function Home() {
   const router = useRouter();
@@ -15,8 +16,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen bg-zinc-100">
+    <div className="flex flex-col items-center min-h-screen bg-zinc-100">
       <Header />
+      <div className="w-full flex justify-start pt-10">
+        <Sidebar />
+      </div>
     </div>
   );
 }
