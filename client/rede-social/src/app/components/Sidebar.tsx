@@ -1,17 +1,29 @@
 'use client'
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAlignLeft, FaBookmark, FaCalendar, FaPeopleArrows, FaRegFlag, FaStore, FaUser, FaUserFriends } from "react-icons/fa";
 import { TbClockHour4, TbDeviceImac } from "react-icons/tb";
 
+interface Iuser {
+    userImg: string;
+    username: string
+}
+
 function Sidebar() {
-    const [user, setUser] = useState({ username: "", userImg: "" });
+    const [user, setUser] = useState<Iuser | undefined>(undefined);
+
+    useEffect(() => {
+        let value = localStorage.getItem("rede-social:user");
+        if (value) {
+          setUser(JSON.parse(value));
+        }
+      }, []);
     return (
         <anside className="pl-4">
             <nav className="flex flex-col gap-6 text-gray-600 font-semibold">
                 <Link href="" className="flex items-center gap-2 pb-6">
-                    {user.userImg.length > 0 ? (
+                    {user?.userImg ? (
                         <img
                             src={user.userImg}
                             className="w-8 h-8 rounded-full"

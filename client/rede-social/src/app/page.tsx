@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Header from "./components/Header";
 import { useRouter } from "next/navigation";
 import Sidebar from "./components/Sidebar";
+import Feed from "./components/Feed";
 
 export default function Home() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Home() {
       <Header />
       <div className="w-full flex justify-start pt-10">
         <Sidebar />
+        <Feed />
       </div>
     </div>
   );
