@@ -19,7 +19,7 @@ const posts = [
 
 function Feed() {
     return (
-        <div>
+        <div className="flex flex-col items-center gap-5">
             {posts.map((post, index) => {
                 return (
                     <Post post={post} key={index} />
