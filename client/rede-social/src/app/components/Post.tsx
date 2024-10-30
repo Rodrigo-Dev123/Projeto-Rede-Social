@@ -1,4 +1,5 @@
-import { FaThumbsUp, FaRegComment, FaPaperPlane } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaThumbsUp, FaRegComment, FaPaperPlane, FaUser } from "react-icons/fa";
 
 interface Ipost {
     id: number;
@@ -8,8 +9,22 @@ interface Ipost {
     userImg: string;
 }
 
+interface Iuser {
+    userImg: string;
+    username: string
+}
+
 function Post({ post }: { post: Ipost }) {
     const { img, post_desc, userImg, username } = post
+
+    const [user, setUser] = useState<Iuser | undefined>(undefined);
+
+    useEffect(() => {
+        let value = localStorage.getItem("rede-social:user");
+        if (value) {
+          setUser(JSON.parse(value));
+        }
+      }, []);
 
     return (
         <div className="w-1/3 bg-white rounded-lg p-4">
@@ -42,13 +57,32 @@ function Post({ post }: { post: Ipost }) {
                 </div>
                 <span>5 comentários</span>
             </div>
-            <div>
-                <button><FaThumbsUp /> Curtir</button>
-                <button><FaRegComment /></button>
+            <div className="flex justify-around py-4 text-gray-600 border-b">
+                <button className="flex items-center gap-1">
+                    <FaThumbsUp /> Curtir
+                </button>
+                <button className="flex items-center gap-1">
+                    <FaRegComment /> Comentar
+                </button>
             </div>
-            <div>
-                <input type='text' />
-                <FaPaperPlane />
+            <div className="flex gap-4 pt-6">
+                {user?.userImg ? (
+                    <img
+                        src={user.userImg}
+                        className="w-8 h-8 rounded-full"
+                    />
+                ) : (
+                    <FaUser className="w-8 h-8 text-gray-600 rounded-full" />
+                )}
+                <div
+                    className="w-full bg-zinc-100 flex items-center text-gray-600 px-3 py-1 rounded-full"
+                >
+                    <input
+                        className="bg-zinc-100 w-full focus-visible:outline-none"
+                        type='text'
+                    />
+                    <FaPaperPlane />
+                </div>
             </div>
         </div>
     )

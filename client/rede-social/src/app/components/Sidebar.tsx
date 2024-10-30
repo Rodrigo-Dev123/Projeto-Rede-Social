@@ -16,11 +16,11 @@ function Sidebar() {
     useEffect(() => {
         let value = localStorage.getItem("rede-social:user");
         if (value) {
-          setUser(JSON.parse(value));
+            setUser(JSON.parse(value));
         }
-      }, []);
+    }, []);
     return (
-        <anside className="pl-4">
+        <aside className="pl-4">
             <nav className="flex flex-col gap-6 text-gray-600 font-semibold">
                 <Link href="" className="flex items-center gap-2 pb-6">
                     {user?.userImg ? (
@@ -31,7 +31,7 @@ function Sidebar() {
                     ) : (
                         <FaUser className="w-8 h-8 text-gray-600 rounded-full" />
                     )}
-                    <span>Usuario</span>
+                    <span>{user?.username ?? 'Usuário'}</span>
                 </Link>
                 <Link href="" className="flex gap-3 items-center">
                     <FaUserFriends className="w-6 h-6" />
@@ -58,7 +58,7 @@ function Sidebar() {
                     Lembranças
                 </Link>
                 <Link href="" className="flex gap-3 items-center">
-                    <FaBookmark className="w-6 h-6"/>
+                    <FaBookmark className="w-6 h-6" />
                     Salvo
                 </Link>
                 <Link href="" className="flex gap-3 items-center">
@@ -70,7 +70,7 @@ function Sidebar() {
                     Eventos
                 </Link>
             </nav>
-        </anside>
+        </aside>
     )
 }
 
